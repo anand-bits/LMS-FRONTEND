@@ -1,11 +1,16 @@
-import { useState } from 'react'
+
 import './App.css'
+import { Route } from 'react-router-dom'
 
 function App() {
   
 
   return (
-    <div> lms</div>
+  <>
+  <Route>
+
+  </Route>
+  </>
   )
   }
 export default App
