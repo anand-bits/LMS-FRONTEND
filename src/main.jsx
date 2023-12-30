@@ -1,12 +1,15 @@
 // Component import
 import App from './App.jsx';
+/* index.css or main.jsx */
+import 'daisyui/dist/full.css';
+
 
 // Css Import
 import './index.css';
 
 // Library Import....
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
