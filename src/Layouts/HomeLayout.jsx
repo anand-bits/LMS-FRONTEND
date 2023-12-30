@@ -3,7 +3,7 @@ import { FiMenu } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import Footer from "../components/footer";
 import { useDispatch, useSelector } from 'react-redux';
-import { Button,Box , Typography} from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 
 function HomeLayout({ children }) {
     const dispatch = useDispatch();
@@ -24,91 +24,91 @@ function HomeLayout({ children }) {
     }
 
     return (
-        <div className="min-h-[90vh]">
-            <div className="drawer m-0">
-                <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content pl-4"> {/* Added padding-left (pl-4) for space */}
-                    <label htmlFor="my-drawer" className="m-0 p-0">
-                        <FiMenu
-                            onClick={openDrawer}
-                            size={"40px"}
-                            className='text-black cursor-pointer'
-                        />
-                    </label>
-                </div>
-                <div className="drawer-side">
-                    <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay" onClick={closeDrawer}></label>
-                    <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
-                        <li className='w-fit absolute right-2 z-50'>
-                            <button onClick={closeDrawer}>
-                                <AiFillCloseCircle
-                                    size={"34px"}
-                                    className='text-black'
-                                />
-                            </button>
-                        </li>
-                        <li>
-                            <Link to="/"> Home </Link>
-                        </li>
+        <div className="flex flex-col">
+            <div className="flex-grow">
+                <div className="drawer m-0">
+                    <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                    <div className="drawer-content pl-4">
+                        {/* Added padding-left (pl-4) for space */}
+                        <label htmlFor="my-drawer" className="m-0 p-0">
+                            <FiMenu
+                                onClick={openDrawer}
+                                size={"40px"}
+                                className='text-black cursor-pointer'
+                            />
+                        </label>
+                    </div>
+                    <div className="drawer-side flex flex-col justify-between">
+                        <div>
+                            <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay" onClick={closeDrawer}></label>
+                            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                                <li className='w-fit absolute right-2 z-50'>
+                                    <button onClick={closeDrawer}>
+                                        <AiFillCloseCircle
+                                            size={"34px"}
+                                            className='text-black'
+                                        />
+                                    </button>
+                                </li>
+                                <li>
+                                    <Link to="/"> Home </Link>
+                                </li>
 
-                        {isLoggedIn && role === 'ADMIN' && (
-                            <li>
-                                <Link to="/admin/dashboard">Admin Dashboard</Link>
-                            </li>
-                        )}
+                                {isLoggedIn && role === 'ADMIN' && (
+                                    <li>
+                                        <Link to="/admin/dashboard">Admin Dashboard</Link>
+                                    </li>
+                                )}
 
-                        <li>
-                            <Link to="/about"> About us </Link>
-                        </li>
-                        <li>
-                            <Link to="/contact"> Contact us </Link>
-                        </li>
-                        <li>
-                            <Link to="/courses"> All courses </Link>
-                        </li>
+                                <li>
+                                    <Link to="/about"> About us </Link>
+                                </li>
+                                <li>
+                                    <Link to="/contact"> Contact us </Link>
+                                </li>
+                                <li>
+                                    <Link to="/courses"> All courses </Link>
+                                </li>
 
-                        {!isLoggedIn && (
-                            <div className='w-full flex items-center justify-center space-x-2'>
-                                <Button variant='contained' color='primary'>
-                                    <Link to="/login"> Login</Link>
-                                </Button>
+                                {!isLoggedIn && (
+                                    <div className='w-full flex items-center justify-center space-x-2'>
+                                        <Button variant='contained' color='primary'>
+                                            <Link to="/login"> Login</Link>
+                                        </Button>
 
-                                <Button variant='contained' color='secondary'>
-                                    <Link to="/signup"> SignUp</Link>
-                                </Button>
-                            </div>
-                        )}
+                                        <Button variant='contained' color='secondary'>
+                                            <Link to="/signup"> SignUp</Link>
+                                        </Button>
+                                    </div>
+                                )}
 
-                            {isLoggedIn && (
-                            <div className='w-full flex items-center justify-center space-x-2'>
-                                <Button variant='contained' color='primary'>
-                                    <Link to="/user/profile"> Login</Link>
-                                </Button>
+                                {isLoggedIn && (
+                                    <div className='w-full flex items-center justify-center space-x-2'>
+                                        <Button variant='contained' color='primary'>
+                                            <Link to="/user/profile"> Login</Link>
+                                        </Button>
 
-                                <Button variant='contained' color='secondary'>
-                                    <Link to="/logout"> Logout</Link>
-                                </Button>
-                            </div>
-                        )}
+                                        <Button variant='contained' color='secondary'>
+                                            <Link to="/logout"> Logout</Link>
+                                        </Button>
+                                    </div>
+                                )}
+                            </ul>
+                        </div>
                         
-
-
-
-                    </ul>
+                    </div>
                 </div>
+
+                {children}
             </div>
 
-            {children}
-
-           
             <Footer />
             <Box sx={{ textAlign: 'center', padding: 2, backgroundColor: 'yellow', marginTop: '10px', borderRadius: '8px' }}>
-                    {/* Typography for the footer with a heart symbol */}
-                    <Typography variant="body2" color="textSecondary">
-                        Made with ❤️ by Anand 
-                    </Typography>
-                </Box>
-
+                {/* Typography for the footer with a heart symbol */}
+                <Typography variant="body2" color="textSecondary">
+                    Made with ❤️ by Anand
+                </Typography>
+            </Box>
         </div>
     );
 }
