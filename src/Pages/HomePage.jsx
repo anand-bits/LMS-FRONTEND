@@ -1,7 +1,8 @@
 // Import necessary dependencies from Material-UI and other libraries
+import { Button, Card, Container, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Typography, Container, Grid, Card, Box } from '@mui/material';
+
 import homePageMainImage from '../assets/Images/Anand.jpg'; // Import the image
 import HomeLayout from '../Layouts/HomeLayout'; // Import the HomeLayout component
 

@@ -1,9 +1,10 @@
+import { Box, Button, Typography } from '@mui/material';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { FiMenu } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
-import Footer from "../components/footer";
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+import Footer from "../components/footer";
 
 function HomeLayout({ children }) {
     const dispatch = useDispatch();
@@ -24,8 +25,9 @@ function HomeLayout({ children }) {
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="flex-grow">
+        <>
+        <div className="flex flex-col justify-end">
+            <div>
                 <div className="drawer m-0">
                     <input id="my-drawer" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content pl-4">
@@ -102,14 +104,16 @@ function HomeLayout({ children }) {
                 {children}
             </div>
 
-            <Footer />
-            <Box sx={{ textAlign: 'center', padding: 2, backgroundColor: 'yellow', marginTop: '10px', borderRadius: '8px' }}>
-                {/* Typography for the footer with a heart symbol */}
-                <Typography variant="body2" color="textSecondary">
-                    Made with ❤️ by Anand
-                </Typography>
-            </Box>
         </div>
+        
+        <Footer />
+        <Box sx={{ textAlign: 'center', padding: 2, backgroundColor: 'yellow', marginTop: '10px', borderRadius: '8px' }}>
+            {/* Typography for the footer with a heart symbol */}
+            <Typography variant="body2" color="textSecondary">
+                Made with ❤️ by Anand
+            </Typography>
+        </Box>
+        </>
     );
 }
 
