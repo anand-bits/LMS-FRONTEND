@@ -1,11 +1,12 @@
-import HomeLayout from '../Layouts/HomeLayout';
+import { Typography } from '@mui/material';
+
 import aboutMainPage from '../assets/Images/aboutMainImage.png';
+import anand from "../assets/Images/Anand2.jpg"
 import apj from "../assets/Images/apj.png";
 import billGates from "../assets/Images/billGates.png";
 import nelsonMandela from "../assets/Images/nelsonMandela.png";
 import steveJobs from "../assets/Images/steveJobs.png";
-import anand from "../assets/Images/Anand2.jpg"
-import { Typography } from '@mui/material';
+import HomeLayout from '../Layouts/HomeLayout';
 
 
 
