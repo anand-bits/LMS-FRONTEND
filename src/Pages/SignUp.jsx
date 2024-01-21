@@ -22,12 +22,20 @@ const SignUp = () => {
               Registration Page
             </Typography>
 
-            <label htmlFor='image-upload' className='cursor-pointer'>
+            <label htmlFor='image_uploads' className='cursor-pointer'>
                 {previewImage?(
                     <img className='w-24 h-24 rounded-full m-auto' src={previewImage}/>
                 ):(<BsPersonCircle className='w-24 h-24 rounded-full m-auto'/>)}
 
             </label>
+
+            <input
+            className='hidden'
+            type='file'
+            name='image_uploads'
+            id='image_uploads'
+            accept='.jpg,.jpeg,.png,.svg'
+            />
 
 
 
@@ -37,7 +45,7 @@ const SignUp = () => {
             <TextField label="Full Name" variant="outlined" fullWidth margin="normal" required />
             <TextField label="Email" type="email" variant="outlined" fullWidth margin="normal" required />
             <TextField label="Password" type="password" variant="outlined" fullWidth margin="normal" required />
-            <TextField label="Confirm Password" type="password" variant="outlined" fullWidth margin="normal" required />
+            
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Sign Up
             </Button>
