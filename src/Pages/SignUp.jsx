@@ -27,17 +27,33 @@ const SignUp = () => {
     });
   };
 
+  // Profile Picture Handeling......
+  
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+    e.preventDefault();
+
+    const uploadedImage = e.target.files[0];
+    if (uploadedImage) {
       // Handle file preview or upload logic
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setpreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setsignupData(
+        {
+            ...signupData,
+            avatar:uploadedImage
+        }
+      )
+      const fileReader= new FileReader
+
+      fileReader.readAsDataURL(uploadedImage)
+      fileReader.addEventListener("load",function()
+      {
+        console.log(this.result)
+        setpreviewImage(this.result)
+      })
     }
   };
+
+
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
