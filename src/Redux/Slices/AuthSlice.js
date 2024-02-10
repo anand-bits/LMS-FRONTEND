@@ -14,9 +14,13 @@ export const createAccount = createAsyncThunk(
   async (data) => {
     try {
       const res = await axiosInstance.post("user/register", data);
+      // Notify success
+      toast.success("Account created successfully");
       return res.data.message; // Return success message
     } catch (error) {
-      throw error.response.data.message; // Throw error message if request fails
+      // Notify error
+      toast.error(error.response?.data?.message || "Failed to create account");
+      throw error.response?.data?.message; // Throw error message if request fails
     }
   }
 );
@@ -25,15 +29,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(createAccount.fulfilled, (state, action) => {
-        // No need to use toast here, we handled it within the thunk
-      })
-      .addCase(createAccount.rejected, (state, action) => {
-        toast.error("Account creation failed"); // Show generic error message if account creation fails
-      });
-  },
+  // No need for extraReducers, handle everything within createAccount
 });
 
 export const { } = authSlice.actions;

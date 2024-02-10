@@ -48,7 +48,7 @@ const SignUp = () => {
       fileReader.readAsDataURL(uploadedImage)
       fileReader.addEventListener("load",function()
       {
-        console.log(this.result)
+        
         setpreviewImage(this.result)
       })
     }
@@ -96,8 +96,16 @@ const SignUp = () => {
     const response= await dispatch(createAccount(formData))
     console.log(response)
 
-
-    if(response.payload.success)
+    try{
+    if (response.meta.requestStatus === 'fulfilled') {
+      toast.success(response.payload); // Show success message
+      navigate("/"); // Redirect to home page
+    } else {
+      toast.error(response.error.message || "Failed to create account"); // Show error message
+    }
+  } catch (error) {
+    toast.error(error.message || "Failed to create account"); // Show error message
+  }
     navigate("/")
 
     setsignupData({
