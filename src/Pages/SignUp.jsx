@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import HomeLayout from '../Layouts/HomeLayout';
+import { createAccount } from '../Redux/Slices/AuthSlice';
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const SignUp = () => {
 
  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     
@@ -76,7 +77,7 @@ const SignUp = () => {
 
 
     }
-    
+
 
     // Checking Field Length
 
@@ -92,7 +93,11 @@ const SignUp = () => {
     formData.append("password",signupData.password);
     formData.append("avatar",signupData.avatar);
 
+    const response= await dispatch(createAccount(formData))
+    console.log(response)
 
+
+    if(response.payload.success)
     navigate("/")
 
     setsignupData({
@@ -102,6 +107,7 @@ const SignUp = () => {
     avatar: '',
 
     });
+
     setpreviewImage("");
 
 
