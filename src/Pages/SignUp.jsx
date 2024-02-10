@@ -1,5 +1,6 @@
 import { Button, Container, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import  { useState } from 'react';
+import toast from 'react-hot-toast';
 import { BsPersonCircle } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -28,7 +29,7 @@ const SignUp = () => {
   };
 
   // Profile Picture Handeling......
-  
+
   const handleFileChange = (e) => {
     e.preventDefault();
 
@@ -53,12 +54,61 @@ const SignUp = () => {
   };
 
 
+
+
+
+
+
+
+
+
  
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    
+
+    if(!signupData.email || !signupData.fullName || !signupData.password || !signupData.avatar)
+    {
+        toast.error("Please fill all the details");
+        return;
+
+
+    }
+    
+
+    // Checking Field Length
+
+    if(signupData.fullName.length<5)
+    {
+        toast.error("Name Should not be less than 5");
+
+    }
+    const formData=new FormData();
+    formData.append("fullName",signupData.fullName);
+
+    formData.append("email",signupData.email);
+    formData.append("password",signupData.password);
+    formData.append("avatar",signupData.avatar);
+
+
+    navigate("/")
+
+    setsignupData({
+        fullName: '',
+    email: '',
+    password: '',
+    avatar: '',
+
+    });
+    setpreviewImage("");
+
+
+
+
     // Add logic to handle form submission
-    console.log('Form submitted:', signupData);
+    console.log('Form submitted:', formData);
     // You can dispatch actions, make API calls, etc. here
   };
 
@@ -129,7 +179,8 @@ const SignUp = () => {
               name="password"  // Add name attribute for the password field
             />
 
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button type="submit" variant="contained" color="primary" fullWidth
+            onChange={handleSubmit}>
               Sign Up
             </Button>
 

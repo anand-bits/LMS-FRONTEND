@@ -6,12 +6,16 @@ const initialState = {
   data: localStorage.getItem('data') || {}
 };
 
+
+
+
+
 const authSlice = createSlice({
   name: 'auth',
   initialState, // Fix the typo here
   reducers: {},
 });
 
-export const {} = authSlice.actions;
+export const { } = authSlice.actions;
 
 export default authSlice.reducer;
