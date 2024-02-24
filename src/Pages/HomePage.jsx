@@ -12,11 +12,11 @@ const HomePage = () => {
         // Use the HomeLayout component to wrap the content
         <HomeLayout>
             {/* Container for the main content */}
-            <Container style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#f6f1c2 '}}>
+            <Container style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'white'}}>
                 {/* Grid container with spacing and alignment */}
                 <Grid container spacing={3} alignItems="center" justifyContent="space-between" style={{ flex: 1 }}>
                     {/* Left side content */}
-                    <Grid item md={6} style={{ backgroundColor: ' #f6f1c2', padding: '10px', borderRadius: '8px' }}>
+                    <Grid item md={6} style={{ backgroundColor: '#f6f1c2', padding: '20px', borderRadius: '8px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
                         {/* Typography for the main heading */}
                         <Typography variant="h3" component="h1" color="textPrimary" gutterBottom>
                             Discover the Best <span style={{ color: '#FFD700' }}>Online Courses</span>
@@ -26,7 +26,7 @@ const HomePage = () => {
                             Explore a vast library of courses taught by highly skilled and qualified faculties at an affordable cost.
                         </Typography>
                         {/* Buttons for navigation */}
-                        <div style={{ display: 'flex', gap: '16px' }}>
+                        <div style={{ display: 'flex', gap: '16px', marginTop: '20px' }}>
                             <Link to="/courses">
                                 <Button variant="contained" color="primary">
                                     Explore Courses
@@ -40,16 +40,14 @@ const HomePage = () => {
                         </div>
                     </Grid>
                     {/* Right side content */}
-                    <Grid item md={6} style={{ display: 'flex', justifyContent: 'flex-end', padding: '10px'}}>
+                    <Grid item md={6} style={{ display: 'flex', justifyContent: 'center', padding: '20px'}}>
                         {/* Card component with image */}
-                        <Card sx={{ maxWidth: 400, boxShadow: 6, backgroundColor: '#f9f9f9' }}>
+                        <Card sx={{ maxWidth: 400, boxShadow: 6, borderRadius: '8px', overflow: 'hidden' }}>
                             {/* Image with styling */}
-                            <img src={homePageMainImage} alt="home page" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px' }} />
+                            <img src={homePageMainImage} alt="home page" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
                         </Card>
                     </Grid>
                 </Grid>
-                
-              
             </Container>
         </HomeLayout>
     );

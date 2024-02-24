@@ -1,215 +1,149 @@
-import { Button, Container, TextField, Typography } from '@mui/material';
-import  { useState } from 'react';
-import toast from 'react-hot-toast';
-import { BsPersonCircle } from 'react-icons/bs';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { BsPersonCircle } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-import HomeLayout from '../Layouts/HomeLayout';
-import { createAccount } from '../redux/slices/authSlice';
+import { isEmail, isValidPassword } from "../Helpers/regesMatcher";
+import HomeLayout from "../Layouts/HomeLayout";
+import { createAccount } from "../Redux/Slices/AuthSlice";
 
+function Signup() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-const SignUp = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [signupData, setsignupData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    avatar: '',
-  });
-
-  const [previewImage, setpreviewImage] = useState('');
-
-  const handleUserInput = (e) => {
-    const { name, value } = e.target;
-    setsignupData({
-      ...signupData,
-      [name]: value,
+    const [signupDetails, setSignupDetails] = useState({
+        email: "",
+        fullName: "",
+        password: "",
+        avatar: ""
     });
-  };
 
-  // Profile Picture Handeling......
+    const [previewImage, setPreviewImage] = useState("");
 
-  const handleFileChange = (e) => {
-    e.preventDefault();
+    function handleUserInput(e) {
+        const { name, value } = e.target;
+        setSignupDetails({
+            ...signupDetails,
+            [name]: value
+        });
+    }
 
-    const uploadedImage = e.target.files[0];
-    if (uploadedImage) {
-      // Handle file preview or upload logic
-      setsignupData(
-        {
-            ...signupData,
-            avatar:uploadedImage
+    function handleImage(e) {
+        e.preventDefault();
+        const uploadedImage = e.target.files[0];
+        if (!uploadedImage) return;
+        setSignupDetails({
+            ...signupDetails,
+            avatar: uploadedImage
+        });
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(uploadedImage);
+        fileReader.addEventListener("load", function () {
+            setPreviewImage(this.result);
+        });
+    }
+
+    async function onFormSubmit(e) {
+        e.preventDefault();
+        console.log(signupDetails);
+        if (!signupDetails.email || !signupDetails.password || !signupDetails.fullName) {
+            toast.error("Please fill all the details");
+            return;
         }
-      )
-      const fileReader= new FileReader
+        if (signupDetails.fullName.length < 5) {
+            toast.error("Name should be at least 5 characters");
+            return;
+        }
+        if (!isEmail(signupDetails.email)) {
+            toast.error("Invalid email provided");
+            return;
+        }
+        if (!isValidPassword(signupDetails.password)) {
+            toast.error("Invalid password provided, password should be 6-16 characters long with at least a number and a special character");
+            return;
+        }
 
-      fileReader.readAsDataURL(uploadedImage)
-      fileReader.addEventListener("load",function()
-      {
-        
-        setpreviewImage(this.result)
-      })
-    }
-  };
+        const formData = new FormData();
+        formData.append("fullName", signupDetails.fullName);
+        formData.append("email", signupDetails.email);
+        formData.append("password", signupDetails.password);
+        formData.append("avatar", signupDetails.avatar);
 
-
-
-
-
-
-
-
-
-
- 
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    
-
-    if(!signupData.email || !signupData.fullName || !signupData.password || !signupData.avatar)
-    {
-        toast.error("Please fill all the details");
-        return;
-
-
+        const response = await dispatch(createAccount(formData));
+        console.log(response);
+        if (response?.payload?.data) {
+            navigate("/");
+        }
+        setSignupDetails({
+            email: "",
+            fullName: "",
+            password: "",
+            avatar: ""
+        });
+        setPreviewImage("");
     }
 
+    return (
+        <HomeLayout>
+            <div className="flex flex-col items-center justify-center h-screen">
+                <form onSubmit={onFormSubmit} noValidate className="flex flex-col gap-4 items-center bg-gray-100 p-8 rounded-lg shadow-md">
+                    <h1 className="text-3xl font-bold mb-4">Create an Account</h1>
+                    <label htmlFor="image_uploads" className="cursor-pointer">
+                        {previewImage ? (
+                            <img className="w-24 h-24 rounded-full m-auto" src={previewImage} alt="Avatar Preview" />
+                        ) : (
+                            <BsPersonCircle className="w-24 h-24 rounded-full m-auto" />
+                        )}
+                    </label>
+                    <input
+                        onChange={handleImage}
+                        type="file"
+                        className="hidden"
+                        name="image_uploads"
+                        id="image_uploads"
+                        accept=".jpg, .jpeg, .png, .svg"
+                    />
+                    <input
+                        onChange={handleUserInput}
+                        value={signupDetails.fullName}
+                        required
+                        type="text"
+                        name="fullName"
+                        className="bg-transparent px-4 py-2 border rounded-lg w-full"
+                        placeholder="Enter your full name"
+                    />
+                    <input
+                        onChange={handleUserInput}
+                        value={signupDetails.email}
+                        required
+                        type="text"
+                        name="email"
+                        className="bg-transparent px-4 py-2 border rounded-lg w-full"
+                        placeholder="Enter your email"
+                    />
+                    <input
+                        onChange={handleUserInput}
+                        value={signupDetails.password}
+                        required
+                        type="password"
+                        name="password"
+                        className="bg-transparent px-4 py-2 border rounded-lg w-full"
+                        placeholder="Enter your password"
+                    />
+                    <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg w-full">
+                        Create Account
+                    </button>
+                    <p className="mt-4">
+                        Already have an account?{" "}
+                        <Link to="/login" className="text-blue-500 hover:underline">
+                            Login here
+                        </Link>
+                    </p>
+                </form>
+            </div>
+        </HomeLayout>
+    );
+}
 
-    // Checking Field Length
-
-    if(signupData.fullName.length<5)
-    {
-        toast.error("Name Should not be less than 5");
-
-    }
-    const formData=new FormData();
-    formData.append("fullName",signupData.fullName);
-
-    formData.append("email",signupData.email);
-    formData.append("password",signupData.password);
-    formData.append("avatar",signupData.avatar);
-
-    const response= await dispatch(createAccount(formData))
-    console.log(response)
-
-    try{
-    if (response.meta.requestStatus === 'fulfilled') {
-      toast.success(response.payload); // Show success message
-      navigate("/"); // Redirect to home page
-    } else {
-      toast.error(response.error.message || "Failed to create account"); // Show error message
-    }
-  } catch (error) {
-    toast.error(error.message || "Failed to create account"); // Show error message
-  }
-    navigate("/")
-
-    setsignupData({
-        fullName: '',
-    email: '',
-    password: '',
-    avatar: '',
-
-    });
-
-    setpreviewImage("");
-
-
-
-
-    // Add logic to handle form submission
-    console.log('Form submitted:', formData);
-    // You can dispatch actions, make API calls, etc. here
-  };
-
-  return (
-    <HomeLayout>
-      <Container maxWidth="xs">
-        <div className="flex items-center justify-center">
-          <form
-            className="flex flex-col justify-center gap-3 rounded-lg p-4"
-            onSubmit={handleSubmit}
-          >
-            <Typography variant="h5" align="center" gutterBottom>
-              Registration Page
-            </Typography>
-
-            <label htmlFor="image_uploads" className="cursor-pointer">
-              {previewImage ? (
-                <img className="w-24 h-24 rounded-full m-auto" src={previewImage} alt="Preview" />
-              ) : (
-                <BsPersonCircle className="w-24 h-24 rounded-full m-auto" />
-              )}
-            </label>
-
-            <input
-              className="hidden"
-              type="file"
-              name="image_uploads"
-              id="image_uploads"
-              accept=".jpg,.jpeg,.png,.svg"
-              onChange={handleFileChange}
-            />
-           
-
-
-            
-<TextField
-              label="Full Name"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              required
-              onChange={handleUserInput}
-              value={signupData.fullName}
-              name="fullName"  // Add name attribute for the Full Name field
-            />
-
-            <TextField
-              label="Email"
-              type="email"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              required
-              onChange={handleUserInput}
-              value={signupData.email}
-              name="email"  // Add name attribute for the Email field
-            />
-
-<TextField
-              label="Password"
-              type="password"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              required
-              onChange={handleUserInput}
-              value={signupData.password}
-              name="password"  // Add name attribute for the password field
-            />
-
-            <Button type="submit" variant="contained" color="primary" fullWidth
-            onChange={handleSubmit}>
-              Sign Up
-            </Button>
-
-            <p className="text-center">
-              Already have an account?{' '}
-              <Link to="/login" className="link text-accent cursor-pointer">
-                Login
-              </Link>
-            </p>
-          </form>
-        </div>
-      </Container>
-    </HomeLayout>
-  );
-};
-
-export default SignUp;
+export default Signup;
