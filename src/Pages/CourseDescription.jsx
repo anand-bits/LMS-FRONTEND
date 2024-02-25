@@ -6,8 +6,8 @@ import { useLocation } from "react-router-dom";
 import HomeLayout from "../Layouts/HomeLayout";
 
 const Image = styled('img')({
-  width: '80%',
-  height: '80%',
+  width: '70%',
+  height: '70%',
   objectFit: 'cover',
   borderRadius: '8px',
 });
@@ -22,39 +22,37 @@ const CourseDescription = () => {
 
   return (
     <HomeLayout>
-      <Box minHeight="50vh" display="flex" alignItems="center" justifyContent="center" bgcolor="background.paper">
-        <Box maxWidth="2xl" mx="auto" p={4} bgcolor="white" borderRadius={8} boxShadow={4}>
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
-                <Image src={state?.thumbnail?.secure_url} alt="Course Thumbnail" />
-                <Box py={3}>
-                  <Typography variant="h6" component="h2">
-                    <span style={{ fontWeight: 'bold', color: '#FFCC00' }}>Total Lectures:</span>{" "}
-                    {state?.numberOfLectures}
-                  </Typography>
-                  <Typography variant="h6" component="h2">
-                    <span style={{ fontWeight: 'bold', color: '#FFCC00' }}>Instructor:</span>{" "}
-                    {state?.createdBy}
-                  </Typography>
-                </Box>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Box display="flex" flexDirection="column" py={3}>
-                <Typography variant="h4" component="h1" color="text.primary" gutterBottom>
-                  {state?.title}
+      <Box width="80%" mx="auto" p={4} bgcolor="white" borderRadius={8} boxShadow={4}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
+              <Image src={state?.thumbnail?.secure_url} alt="Course Thumbnail" />
+              <Box py={3}>
+                <Typography variant="h6" component="h2">
+                  <span style={{ fontWeight: 'bold', color: '#FFCC00' }}>Total Lectures:</span>{" "}
+                  {state?.numberOfLectures}
                 </Typography>
-                <Typography variant="subtitle1" component="h2" color="text.secondary" gutterBottom>
-                  Course Description:
-                </Typography>
-                <Typography variant="body1" color="text.primary">
-                  {state?.description}
+                <Typography variant="h6" component="h2">
+                  <span style={{ fontWeight: 'bold', color: '#FFCC00' }}>Instructor:</span>{" "}
+                  {state?.createdBy}
                 </Typography>
               </Box>
-            </Grid>
+            </Box>
           </Grid>
-        </Box>
+          <Grid item xs={12} md={6}>
+            <Box display="flex" flexDirection="column" py={3}>
+              <Typography variant="h4" component="h1" color="text.primary" gutterBottom>
+                {state?.title}
+              </Typography>
+              <Typography variant="subtitle1" component="h2" color="text.secondary" gutterBottom>
+                Course Description:
+              </Typography>
+              <Typography variant="body1" color="text.primary">
+                {state?.description}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
     </HomeLayout>
   );
