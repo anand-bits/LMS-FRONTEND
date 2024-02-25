@@ -60,13 +60,10 @@ const CourseCard = ({ data }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
 
-  const handleCardClick = () => {
-    navigate("/course/description");
-  };
-
+ 
   return (
     <CourseCardWrapper
-      onClick={handleCardClick}
+    onClick={() => navigate("/course/description", { state: {...data}})}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

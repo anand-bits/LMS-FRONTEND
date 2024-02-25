@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import {useNavigate } from "react-router-dom"; // Import useHistory hook
+import { useNavigate } from "react-router-dom"; // Import useHistory hook
 
 import axiosInstance from "../Helpers/axiosInstance";
 import { isEmail } from "../Helpers/regesMatcher";
@@ -57,8 +57,9 @@ function Contact() {
 
     return (
         <HomeLayout>
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <form onSubmit={onFormSubmit} className="bg-white shadow-md rounded-md px-8 pt-6 pb-8 mb-4">
+            <div className="flex items-center justify-center min-h-70vh bg-gray-100">
+
+                <form onSubmit={onFormSubmit} className="bg-white shadow-md rounded-md px-8 pt-6 pb-8 mb-4" style={{ height: '70vh', width: '70%', maxWidth: '500px' }}>
                     <h1 className="text-3xl font-semibold text-center mb-8">Contact Form</h1>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>

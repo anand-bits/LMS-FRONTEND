@@ -1,3 +1,5 @@
+import { Avatar, Button,  TextField, Typography } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { BsPersonCircle } from "react-icons/bs";
@@ -21,16 +23,15 @@ function Signup() {
 
     const [previewImage, setPreviewImage] = useState("");
 
-    function handleUserInput(e) {
+    const handleUserInput = (e) => {
         const { name, value } = e.target;
         setSignupDetails({
             ...signupDetails,
             [name]: value
         });
-    }
+    };
 
-    function handleImage(e) {
-        e.preventDefault();
+    const handleImage = (e) => {
         const uploadedImage = e.target.files[0];
         if (!uploadedImage) return;
         setSignupDetails({
@@ -39,14 +40,14 @@ function Signup() {
         });
         const fileReader = new FileReader();
         fileReader.readAsDataURL(uploadedImage);
-        fileReader.addEventListener("load", function () {
+        fileReader.onload = function () {
             setPreviewImage(this.result);
-        });
-    }
+        };
+    };
 
-    async function onFormSubmit(e) {
+    const onFormSubmit = async (e) => {
         e.preventDefault();
-        console.log(signupDetails);
+
         if (!signupDetails.email || !signupDetails.password || !signupDetails.fullName) {
             toast.error("Please fill all the details");
             return;
@@ -73,7 +74,7 @@ function Signup() {
         const response = await dispatch(createAccount(formData));
         console.log(response);
         if (response?.payload?.data) {
-            navigate("/");
+            navigate("/login");
         }
         setSignupDetails({
             email: "",
@@ -82,68 +83,88 @@ function Signup() {
             avatar: ""
         });
         setPreviewImage("");
-    }
+    };
 
+  
     return (
-        <HomeLayout>
-            <div className="flex flex-col items-center justify-center h-screen">
-                <form onSubmit={onFormSubmit} noValidate className="flex flex-col gap-4 items-center bg-gray-100 p-8 rounded-lg shadow-md">
-                    <h1 className="text-3xl font-bold mb-4">Create an Account</h1>
-                    <label htmlFor="image_uploads" className="cursor-pointer">
-                        {previewImage ? (
-                            <img className="w-24 h-24 rounded-full m-auto" src={previewImage} alt="Avatar Preview" />
-                        ) : (
-                            <BsPersonCircle className="w-24 h-24 rounded-full m-auto" />
-                        )}
-                    </label>
-                    <input
-                        onChange={handleImage}
-                        type="file"
-                        className="hidden"
-                        name="image_uploads"
-                        id="image_uploads"
-                        accept=".jpg, .jpeg, .png, .svg"
-                    />
-                    <input
-                        onChange={handleUserInput}
-                        value={signupDetails.fullName}
-                        required
-                        type="text"
-                        name="fullName"
-                        className="bg-transparent px-4 py-2 border rounded-lg w-full"
-                        placeholder="Enter your full name"
-                    />
-                    <input
-                        onChange={handleUserInput}
-                        value={signupDetails.email}
-                        required
-                        type="text"
-                        name="email"
-                        className="bg-transparent px-4 py-2 border rounded-lg w-full"
-                        placeholder="Enter your email"
-                    />
-                    <input
-                        onChange={handleUserInput}
-                        value={signupDetails.password}
-                        required
-                        type="password"
-                        name="password"
-                        className="bg-transparent px-4 py-2 border rounded-lg w-full"
-                        placeholder="Enter your password"
-                    />
-                    <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg w-full">
-                        Create Account
-                    </button>
-                    <p className="mt-4">
-                        Already have an account?{" "}
-                        <Link to="/login" className="text-blue-500 hover:underline">
-                            Login here
-                        </Link>
-                    </p>
-                </form>
+      <HomeLayout>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70vh" }}>
+              <Card sx={{ width: 500 }}>
+                  <CardContent>
+                  <Typography variant="h3" mb={4} sx={{ color: "blue", fontWeight: "bold", textAlign: "center" }}>
+    Create an Account
+</Typography>
+
+                      <label htmlFor="image_uploads" style={{ cursor: "pointer", display: "flex", justifyContent: "center" }}>
+    {previewImage ? (
+        <Avatar alt="Avatar Preview" src={previewImage} sx={{ width: 150, height: 150 }} />
+    ) : (
+        <BsPersonCircle style={{ width: 140, height: 150,marginBottom: "16px" }} />
+    )}
+</label>
+                  <input
+                      onChange={handleImage}
+                      type="file"
+                      style={{ display: "none", marginBottom: "16px" }}
+                      name="image_uploads"
+                      id="image_uploads"
+                      accept=".jpg, .jpeg, .png, .svg"
+                  />
+                  <TextField
+                      onChange={handleUserInput}
+                      value={signupDetails.fullName}
+                      required
+                      type="text"
+                      name="fullName"
+                      label="Full Name"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      sx={{ marginBottom: 2 }}
+                  />
+                  <TextField
+                      onChange={handleUserInput}
+                      value={signupDetails.email}
+                      required
+                      type="email"
+                      name="email"
+                      label="Email"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      sx={{ marginBottom: 2 }}
+                  />
+                  <TextField
+                      onChange={handleUserInput}
+                      value={signupDetails.password}
+                      required
+                      type="password"
+                      name="password"
+                      label="Password"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      sx={{ marginBottom: 2 }}
+                  />
+                 <Button
+    variant="contained"
+    color="primary"
+    onClick={onFormSubmit}
+    fullWidth
+    sx={{ marginBottom: 2 }} // Adjust the margin as needed
+>
+    Create Account
+</Button>
+                  <Typography mb={2}>
+    Already have an account?{"  "}
+    <Link to="/login" style={{ color: "blue", textDecoration: "underline" }}>Login here</Link>
+</Typography>
+
+                  </CardContent>
+                </Card>
             </div>
         </HomeLayout>
-    );
+  );
 }
 
 export default Signup;

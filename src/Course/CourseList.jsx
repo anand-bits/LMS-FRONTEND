@@ -8,11 +8,16 @@ import { getAllCourses } from "../Redux/Slices/courseSlice";
 
 function CourseList() {
     const dispatch = useDispatch();
+
     const { courseList } = useSelector((state) => state.course);
 
-    useEffect(() => {
-        dispatch(getAllCourses());
-    }, [dispatch]);
+    async function loadCourses() {
+        await dispatch(getAllCourses());
+    }
+
+    useEffect(() =>{
+        loadCourses();
+    }, [])
 
     return (
         <HomeLayout>
