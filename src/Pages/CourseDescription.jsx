@@ -1,61 +1,79 @@
-import { Box, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../Layouts/HomeLayout";
 
-const Image = styled('img')({
-  width: '70%',
-  height: '70%',
-  objectFit: 'cover',
+const CardContainer = styled('div')({
+  backgroundColor: '#ffffff',
   borderRadius: '8px',
+  boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)', // Increased shadow for a larger card effect
+  padding: '40px', // Increased padding for more space inside the card
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 const CourseDescription = () => {
-  const { state } = useLocation();
+    const { state } = useLocation();
+    const navigate = useNavigate();
+    const { role, data } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    // Print the state object to the console for verification
-    console.log("State:", state);
-  }, [state]);
+    return (
+        <HomeLayout>
+            <CardContainer>
+                <div className="grid grid-cols-2 gap-10 py-10 relative">
+                    <div className="space-y-5">
+                    <img 
+    className="w-full h-96 object-cover"
+    alt="thumbnail"
+    src={state?.thumbnail?.secure_url}
+/>
 
-  return (
-    <HomeLayout>
-      <Box width="80%" mx="auto" p={4} bgcolor="white" borderRadius={8} boxShadow={4}>
-        <Grid container spacing={4}>
-          <Grid item xs={12} md={6}>
-            <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
-              <Image src={state?.thumbnail?.secure_url} alt="Course Thumbnail" />
-              <Box py={3}>
-                <Typography variant="h6" component="h2">
-                  <span style={{ fontWeight: 'bold', color: '#FFCC00' }}>Total Lectures:</span>{" "}
-                  {state?.numberOfLectures}
-                </Typography>
-                <Typography variant="h6" component="h2">
-                  <span style={{ fontWeight: 'bold', color: '#FFCC00' }}>Instructor:</span>{" "}
-                  {state?.createdBy}
-                </Typography>
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Box display="flex" flexDirection="column" py={3}>
-              <Typography variant="h4" component="h1" color="text.primary" gutterBottom>
-                {state?.title}
-              </Typography>
-              <Typography variant="subtitle1" component="h2" color="text.secondary" gutterBottom>
-                Course Description:
-              </Typography>
-              <Typography variant="body1" color="text.primary">
-                {state?.description}
-              </Typography>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-    </HomeLayout>
-  );
+                        <div className="space-y-4">
+                            <div className="flex flex-col items-center justify-between text-xl">
+                                <p className="font-semibold">
+                                    <span className="font-bold text-yellow-500">Total Lectures: {" "}</span> {state?.numberOfLectures}
+                                </p>
+                                <p className="font-semibold">
+                                    <span className="font-bold text-yellow-500">Instructor: {" "}</span> {state?.createdBy}
+                                </p>
+                            </div>
+                            {role == "ADMIN" || data?.subscription?.status === 'active'? (
+                                <button
+                                    onClick={() => navigate("/course/displaylectures", {state: {...state}})}
+                                    className="bg-yellow-500 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-600 transition-all ease-in-out duration-300"
+                                >
+                                    Watch Lectures
+                                </button>
+                            ): (
+                                <button
+                                    onClick={() => navigate("/checkout")}
+                                    className="bg-yellow-500 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-600 transition-all ease-in-out duration-300"
+                                >
+                                    Subscribe
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Right of the grid */}
+                    <div className="space-y-2 text-xl">
+                        <h1 className="text-3xl font-bold text-yellow-500 mb-5 text-center">
+                            {state?.title}
+                        </h1>
+                        <p className="text-yellow-500">
+                            Course Description: {" "}
+                        </p>
+                        <p>
+                            {state?.description}
+                        </p>
+                    </div>
+                </div>
+            </CardContainer>
+        </HomeLayout>
+    );
 }
 
 export default CourseDescription;
